@@ -1,0 +1,63 @@
+sppIDer steps, input, and outputs:
+
+Upstream:
+combineGenomes.py
+ Input Requirements: All reference genomes in the key have to exist in the folder
+ Input Arguments: --out outputName.fasta --key keyToGenome.txt --trim minimumContigLength (opt)
+    Key format: uniIDforGenome\tgenome.fasta
+  Output: 
+    For downstream use: outputName.fasta, outputName.fasta.bwt, outputName.fasta.pac, outputName.fasta.ann, outputName.fasta.amb, outputName.fasta.sa, outputName.fasta.fai
+    For humans: comboLength_outputName.fasta.txt - text file with summary of how long each contig and reference genome is. 
+    
+Main sppIDer:
+sppIDer.py
+    Input Requirements: bwa, samtools, bedtools, R, Rpackage ggplot2, Rpackage dplyr
+    Input Arguments: --out outputPrefix --ref path/refGenome.fasta --r1 path/read1.fastq --r2 path/read2.fastq (opt) --byBP or --byGroup (opt)
+    Output: outputPrefix_sppIDerRun.info - Text file with information on what was run with what options and with cumulative run time
+    
+    Steps:
+    bwa mem
+    Inputs: reference genome, fastq sequence files
+    Output: output_aln-pe.sam - Human readable output of where reads map to reference 
+    
+    parseSamFile.py
+    Inputs: output_aln-pe.sam
+    Outputs: output_MQ.txt - Text file of read counts by Species and Mapping Quality score
+        
+    MQscores_sumPlot.R
+    Inputs: output_MQ.txt 
+    Outputs: output_MQsummary.txt - Text file with summary of how many and how well reads map to each genome
+            output_plotMQ.pdf - Plot of reads mapped per genome and Mapping Quality per genome
+            
+    samtools view
+    Inputs: output_aln-pe.sam
+    Outputs: output_aln-pe.view.bam - Binary file of just reads with mapping quality >3
+    
+    samtools sort
+    Inputs: output_aln-pe.sam
+    Oputputs: output_aln-pe.sort.bam - Binary file of reads ordered by reference genome
+
+    bedtools genomeCoverageBed
+    Inputs: output_aln-pe.sort.bam
+    Outputs: output-(d/g).bedgraph - Coverage of reference genome, per base pair position (d) or grouped by coverage (g)
+
+    meanDepth_sppIDer(-d/-bga).R
+    Inputs: output-(d/g).bedgraph 
+    Outputs: output_speciesAvgDepth-(d/g).txt - Text file summary of coverage for each species including: mean, relativeMean (speciesMean/globalMean), max, and median coverage
+      output_chrAvgDepth-(d/g).txt - Text file summary of coverage for each chromosome of each species
+      output_winAvgDepth-(d/g).txt - Text file summary of coverage of the genome split into 10,000 windows
+
+    sppIDer_depthPlot_forSpc.R
+    Inputs: output_speciesAvgDepth-(d/g).txt
+    Outputs: output_speciesDepth.pdf - Plot of coverage by species
+    
+    sppIDer_depthPlot-d.R
+    Inputs: output_winAvgDepth-(d/g).txt
+    Outputs: output_sppIDerDepthPlot-(d/g).pdf - Plot of coverage by genome split into 10,000 windows
+
+
+    
+    
+    
+        
+    
