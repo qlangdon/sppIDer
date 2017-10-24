@@ -1,3 +1,4 @@
+#! /usr/bin/Rscript
 #options(warn = -1)
 suppressMessages(require("dplyr"))
 args <- commandArgs(TRUE)

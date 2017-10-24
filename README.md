@@ -18,6 +18,6 @@
 
 <h3>Basic Steps</h3>
 <p>combineRefGenomes.py needs to be run first to combine all the desired reference genomes and make the required dictonaries. </p>
-<p>sppIDer.py requires the combo ref from above and either one or two fastq files as input. sppIDer.py --h will inform you and basic usage. More details about what these scripts do can be found in sppIDer_manuel.doc and details on the input and output can be found in sppIDerOutput.txt</p>
+<p>sppIDer.py requires the combo ref from above and either one or two fastq files as input. sppIDer.py --h will inform you and basic usage. More details about what these scripts do can be found in sppIDer_manual.docx and details on the input and output can be found in sppIDerOutput.txt</p>
   
 <h3>Many improvments are planned to make sppIDer more useable and will be available soon.</h3>

@@ -1,3 +1,4 @@
+#! /usr/bin/Rscript
 require(ggplot2)
 plot <- ggplot()
 args <- commandArgs(TRUE)

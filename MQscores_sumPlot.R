@@ -1,3 +1,4 @@
+#! /usr/bin/Rscript
 require(ggplot2)
 args <- commandArgs(TRUE)
 strainName <- args[1]
