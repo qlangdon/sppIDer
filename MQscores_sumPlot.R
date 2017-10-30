@@ -1,4 +1,5 @@
 #! /usr/bin/Rscript
+options(stringAsFactors=FALSE)
 require(ggplot2)
 args <- commandArgs(TRUE)
 strainName <- args[1]
@@ -106,3 +107,4 @@ ggplot(maps, aes(factor(Species, levels=spcLabels), MQscore, weight=count))+ geo
 
 options(warn = 1)
 
+dev.off()

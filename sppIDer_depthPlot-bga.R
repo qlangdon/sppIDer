@@ -1,4 +1,5 @@
 #! /usr/bin/Rscript
+options(stringAsFactors=FALSE)
 require(ggplot2)
 plot <- ggplot()
 args <- commandArgs(TRUE)
@@ -178,3 +179,5 @@ ggplot(transform(sigTable, species=factor(species, levels=sigSpecies)), aes(spec
 yaxis <- scale_y_continuous(name="Average Depth (limited)", limits = c(0,meanQuant))
 ggplot(transform(sigTable, species=factor(species, levels=sigSpecies)), aes(speciesPos, meanValueLimited, colour = species))+geom_point()+facet_grid(species ~ .)+theme_classic()+line+scale_colour_manual(values=sigSpeciesColors, name="Species")+xaxis+yaxis+ggtitle(paste(outputPrefix, "Avg depth of coverage", sep=" "))+theme(legend.text=element_text(face="italic"), strip.text=element_text(face="italic"))+plotVert
 ggplot(transform(sigTable, species=factor(species, levels=sigSpecies)), aes(speciesPos))+geom_ribbon(aes(ymin=0, ymax=meanValueLimited, fill=species))+facet_grid(species ~ .)+theme_classic()+line+scale_fill_manual(values=sigSpeciesColors, name="Species")+xaxis+yaxis+ggtitle(paste(outputPrefix, "Avg depth of coverage", sep=" "))+theme(legend.text=element_text(face="italic"), strip.text=element_text(face="italic"))+plotVert
+
+dev.off()

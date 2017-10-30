@@ -1,0 +1,7 @@
+Saccharomyces_cervisiae	Scer.fasta
+Saccharomyces_paradoxus	Spar.fasta
+Saccharomyces_mikatae	Smik.fasta
+Saccharomyces_kudriavzevii	SkudZP591.fasta
+Saccharomyces_arborcola	Sarb.fasta
+Saccharomyces_uvarum	Suva.fasta
+Saccharomyces_eubayanus	Seub_wMito.fasta
