@@ -8,7 +8,7 @@
 
 <h2>Installation</h2>
 <h3>Prerequisites</h3>
- <p>To run sppIDer you will need Python 2.7+ with Biopython. Additionally R (http://cran.r-project.org/) and the R packages 'ggplot2' and 'dplyr' are need to parse and plot the information. This pipeline uses existing bioinformatic tools, therefor the following tools are required:</p>
+ <p>To run sppIDer you will need Python 2.7+ with Biopython. Additionally R (http://cran.r-project.org/) and the R packages 'ggplot2', 'dplyr', and 'doBy' are need to parse and plot the information. This pipeline uses existing bioinformatic tools, therefor the following tools are required:</p>
 <p>BWA - http://bio-bwa.sourceforge.net/</p>
 <p>SAMTOOLS - http://samtools.sourceforge.net/</p>
 <p>bedtools genomecov - http://bedtools.readthedocs.io/en/latest/content/tools/genomecov.html</p>

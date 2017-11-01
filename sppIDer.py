@@ -24,6 +24,7 @@ parser.set_defaults(bed=True)
 args = parser.parse_args()
 
 #Replace paths
+scriptsPath = #EDIT# pathToSppIDerScripts
 
 outputPrefix = args.out
 refGen=args.ref
@@ -69,19 +70,13 @@ else: trackerOut.write("coverage analysis option = by each base pair -d\n")
 trackerOut.close()
 
 ########################## BWA ###########################
-bwaOutName = outputPrefix+"_aln-pe.sam"
+bwaOutName = outputPrefix+".sam"
 bwaOutFile = open(bwaOutName, 'w')
 if args.r2:
     print("Read1=" + read1Name + "\nRead2=" + read2Name)
-    #trackerOut.write("read1=" + read1Name + "\n")
-    #trackerOut.write("read2=" + read2Name + "\n")
-    #trackerOut.close()
     subprocess.call(["#EDIT# pathToBWA/bwa", "mem", refGen, read1Name, read2Name], stdout=bwaOutFile)
 else:
-    #read1Name = args.r1
     print("Read1="+read1Name)
-    #trackerOut.write("read1=" + read1Name + "\n")
-    #trackerOut.close()
     subprocess.call(["#EDIT# pathToBWA/bwa", "mem", refGen, read1Name], stdout=bwaOutFile)
 print("BWA complete")
 currentTime = time.time()-start
@@ -92,16 +87,11 @@ trackerOut.write("BWA complete\nElapsed time: " + elapsedTime)
 trackerOut.close()
 
 ########################## samtools ###########################
-#samViewOut = outputPrefix+"_aln-pe.view.bam"
 samViewOutQual = outputPrefix+"_aln-pe.view.bam"
-#samSortOut = outputPrefix+".sorted.sam"
 bamSortOut = outputPrefix+"_aln-pe.sort.bam"
-#samViewFile = open(samViewOut, 'w')
-#subprocess.call(["/opt/bifxapps/bin/samtools", "view", "-bhSu",  bwaOutName], stdout=samViewFile)
 samViewQualFile = open(samViewOutQual, 'w')
 subprocess.call(["#EDIT# pathToSAMTOOLS/samtools", "view", "-q", "3", "-bhSu",  bwaOutName], stdout=samViewQualFile)
 subprocess.call(["#EDIT# pathToSAMTOOLS/samtools", "sort", samViewOutQual, "-o", bamSortOut])
-#subprocess.call(["/opt/bifxapps/bin/samtools", "sort", samViewOut, "-O", "sam", "-o", samSortOut])
 print("SAMTOOLS complete")
 currentTime = time.time()-start
 elapsedTime = calcElapsedTime(currentTime)
@@ -111,8 +101,7 @@ trackerOut.write("\nSAMTOOLS complete\nElapsed time: " + elapsedTime)
 trackerOut.close()
 
 ########################## parse SAM file ###########################
-#parseInput = outputPrefix+"_aln-pe"
-subprocess.call(["#EDIT# pathToPYTHON/python", "#EDIT# pathToSppIDerScripts/parseSamFile.py", outputPrefix])
+subprocess.call(["#EDIT# pathToPYTHON/python", scriptsPath+"parseSamFile.py", outputPrefix])
 print("Parsed SAM file")
 currentTime = time.time()-start
 elapsedTime = calcElapsedTime(currentTime)
@@ -122,8 +111,7 @@ trackerOut.write("\nParsed SAM\nElapsed time: " + elapsedTime)
 trackerOut.close()
 
 ########################## plot MQ scores ###########################
-#subprocess.call(["/usr/bin/Rscript", "/home/GLBRCORG/qlangdon/scripts/parseMQscores_multispecies.R", outputPrefix])
-subprocess.call(["#EDIT# pathToR/Rscript", "#EDIT# pathToSppIDerScripts/MQscores_sumPlot.R", outputPrefix])
+subprocess.call(["#EDIT# pathToR/Rscript", scriptsPath+"MQscores_sumPlot.R", outputPrefix])
 print("Plotted MQ scores")
 currentTime = time.time()-start
 elapsedTime = calcElapsedTime(currentTime)
@@ -152,9 +140,9 @@ trackerOut.close()
 
 ########################## average Bed ###########################
 if args.bed == True:
-    subprocess.call(["#EDIT# pathToR/Rscript", "#EDIT# pathToSppIDerScripts/meanDepth_sppIDer-d.R", outputPrefix])
+    subprocess.call(["#EDIT# pathToR/Rscript", scriptsPath+"meanDepth_sppIDer-d.R", outputPrefix])
 else:
-    subprocess.call(["#EDIT# pathToR/Rscript", "#EDIT# pathToSppIDerScripts/meanDepth_sppIDer-bga.R", outputPrefix])
+    subprocess.call(["#EDIT# pathToR/Rscript", scriptsPath+"meanDepth_sppIDer-bga.R", outputPrefix])
 print("Found mean depth")
 currentTime = time.time()-start
 elapsedTime = calcElapsedTime(currentTime)
@@ -165,11 +153,11 @@ trackerOut.close()
 
 ########################## make plot ###########################
 if args.bed == True:
-    subprocess.call(["#EDIT# pathToR/Rscript", "#EDIT# pathToSppIDerScripts/sppIDer_depthPlot_forSpc.R", outputPrefix, "d"])
-    subprocess.call(["#EDIT# pathToR/Rscript", "#EDIT# pathToSppIDerScripts/sppIDer_depthPlot-d.R", outputPrefix])
+    subprocess.call(["#EDIT# pathToR/Rscript", scriptsPath+"sppIDer_depthPlot_forSpc.R", outputPrefix, "d"])
+    subprocess.call(["#EDIT# pathToR/Rscript", scriptsPath+"sppIDer_depthPlot-d.R", outputPrefix])
 else:
-    subprocess.call(["#EDIT# pathToR/Rscript", "#EDIT# pathToSppIDerScripts/sppIDer_depthPlot_forSpc.R", outputPrefix, "g"])
-    subprocess.call(["#EDIT# pathToR/Rscript", "#EDIT# pathToSppIDerScripts/sppIDer_depthPlot-bga.R", outputPrefix])
+    subprocess.call(["#EDIT# pathToR/Rscript", scriptsPath+"sppIDer_depthPlot_forSpc.R", outputPrefix, "g"])
+    subprocess.call(["#EDIT# pathToR/Rscript", scriptsPath+"sppIDer_depthPlot-bga.R", outputPrefix])
 print("Plot complete")
 currentTime = time.time()-start
 elapsedTime = calcElapsedTime(currentTime)
